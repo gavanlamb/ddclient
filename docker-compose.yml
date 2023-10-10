@@ -7,6 +7,7 @@ services:
     configs:
       - source: ddclient_config
         target: /config/ddclient.conf
+        mode: 444
     environment:
       PUID: 1000
       PGID: 1000
