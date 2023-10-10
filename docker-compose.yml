@@ -1,0 +1,40 @@
+﻿version: '3.9'
+services:
+  ddclient:
+    image: lscr.io/linuxserver/ddclient:latest
+    networks:
+      - infrastructure
+    configs:
+      - source: ddclient_config
+        target: /config/ddclient.conf
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Etc/UTC
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - "node.labels.platform==linux"
+      rollback_config:
+        parallelism: 0
+        failure_action: continue
+        order: stop-first
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: stop-first
+    logging:
+      options:
+        loki-external-labels: "job=ddclient"
+
+configs:
+  ddclient_config:
+    name: ddclient_config
+    external: true
+    
+networks:
+  infrastructure:
+    name: infrastructure
+    external: true
