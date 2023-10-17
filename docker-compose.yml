@@ -3,7 +3,7 @@ services:
   ddclient:
     image: lscr.io/linuxserver/ddclient:latest
     networks:
-      - infrastructure
+      - services
     environment:
       PUID: 1000
       PGID: 1000
@@ -37,6 +37,6 @@ volumes:
       device: ":/share/docker/ddclient"
 
 networks:
-  infrastructure:
-    name: infrastructure
+  services:
+    name: services
     external: true
